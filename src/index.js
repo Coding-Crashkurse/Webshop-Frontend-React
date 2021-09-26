@@ -4,11 +4,14 @@ import App from "./App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { WarenkorbProvider } from "./store/store";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <WarenkorbProvider>
+        <App />
+      </WarenkorbProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

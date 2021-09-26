@@ -1,8 +1,16 @@
 import Products from "./components/Products";
 import { Switch, Route, NavLink } from "react-router-dom";
 import logo from "./images/logo.png";
+import Cart from "./components/Cart";
+import CardCounter from "./components/CardCounter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import Warenkorb from "./store/store";
+import { useContext } from "react";
 
 function App() {
+  const ctx = useContext(Warenkorb);
+
   return (
     <div>
       <nav className="flex justify-between bg-gray-700 fixed top-0 w-full">
@@ -28,14 +36,15 @@ function App() {
               Products
             </NavLink>
           </li>
-          <li>
+          <li className="relative">
+            <CardCounter />
             <NavLink
               to="cart"
               className="p-4"
               activeClassName="text-brandcol"
               exact
             >
-              Cart
+              <FontAwesomeIcon icon={faShoppingCart} className="text-2xl" />
             </NavLink>
           </li>
         </ul>
@@ -48,7 +57,7 @@ function App() {
           <Products />
         </Route>
         <Route path="/cart">
-          <h1>Cart</h1>
+          <Cart />
         </Route>
         <Route path="/">
           <h1>Home</h1>
