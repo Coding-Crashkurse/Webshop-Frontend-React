@@ -1,15 +1,21 @@
 import Products from "./components/Products";
-import { Switch, Route, NavLink } from "react-router-dom";
+import { Switch, Route, NavLink, useLocation } from "react-router-dom";
 import logo from "./images/logo.png";
 import Cart from "./components/Cart";
 import CardCounter from "./components/CardCounter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import Warenkorb from "./store/store";
-import { useContext } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import SplitForm from "./components/StripeContainer";
+import { AnimatePresence, motion } from "framer-motion";
+
+const stripePromise = loadStripe(
+  "pk_test_51Je0RtHYfgsmREY9CgihgUBwHEMCdRO4zoonPGy5G8XGG5E17JEzwD6CGJyJdl9QtBpcNLGqzLViQXE3X6aO8ky9007lpq05rE"
+);
 
 function App() {
-  const ctx = useContext(Warenkorb);
+  let location = useLocation();
 
   return (
     <div>
@@ -52,17 +58,36 @@ function App() {
 
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-      <Switch>
-        <Route path="/products">
-          <Products />
-        </Route>
-        <Route path="/cart">
-          <Cart />
-        </Route>
-        <Route path="/">
-          <h1>Home</h1>
-        </Route>
-      </Switch>
+
+      <AnimatePresence exitBeforeEnter initial={false}>
+        <Switch location={location} key={location.pathname}>
+          <Route path="/products">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Products />
+            </motion.div>
+          </Route>
+          <Route path="/cart">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Cart />
+            </motion.div>
+          </Route>
+          <Route path="/payment">
+            <Elements stripe={stripePromise}>
+              <SplitForm />
+            </Elements>
+          </Route>
+        </Switch>
+      </AnimatePresence>
     </div>
   );
 }

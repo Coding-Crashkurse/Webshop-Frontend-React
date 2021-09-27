@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Warenkorb from "../store/store";
+import { NavLink } from "react-router-dom";
 
 const CheckoutButton = () => {
   const ctx = useContext(Warenkorb);
@@ -7,19 +8,18 @@ const CheckoutButton = () => {
   if (ctx.waren.length > 0) {
     return (
       <div className="flex justify-end ">
-        <button className="bg-gray-900 text-white py-2 px-6 hover:bg-black">
+        <NavLink
+          to="/payment"
+          className="py-2 px-4 text-md text-white bg-gray-700 hover:bg-gray-900"
+          activeClassName="text-brandcol"
+          exact
+        >
           Checkout
-        </button>
+        </NavLink>
       </div>
     );
   } else {
-    return (
-      <div className="flex justify-end ">
-        <button className="bg-gray-900 text-white py-2 px-6 hover:bg-black cursor-not-allowed opacity-50">
-          Checkout
-        </button>
-      </div>
-    );
+    return <></>;
   }
 };
 
