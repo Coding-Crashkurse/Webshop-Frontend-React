@@ -3,6 +3,7 @@ import { Switch, Route, NavLink, useLocation } from "react-router-dom";
 import logo from "./images/logo.png";
 import Cart from "./components/Cart";
 import CardCounter from "./components/CardCounter";
+import Home from "./components/Home";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { loadStripe } from "@stripe/stripe-js";
@@ -19,7 +20,7 @@ function App() {
 
   return (
     <div>
-      <nav className="flex justify-between bg-gray-700 fixed top-0 w-full">
+      <nav className="flex justify-between bg-gray-700 fixed top-0 w-full z-50">
         <img src={logo} width="125px"></img>
         <ul className="flex px-4 justify-center items-center text-xl text-white">
           <li>
@@ -61,6 +62,9 @@ function App() {
 
       <AnimatePresence exitBeforeEnter initial={false}>
         <Switch location={location} key={location.pathname}>
+          <Route path="/" exact>
+            <Home />
+          </Route>
           <Route path="/products">
             <motion.div
               initial={{ opacity: 0 }}

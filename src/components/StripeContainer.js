@@ -7,6 +7,10 @@ import {
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
 
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+
 import useResponsiveFontSize from "./useResponsiveFontSize";
 import { useContext } from "react";
 import Warenkorb from "../store/store";
@@ -69,6 +73,9 @@ const SplitForm = () => {
 
   return (
     <div className="pt-36 m-auto max-w-lg">
+      <h1 className="text-xl font-semibold">
+        Please enter your credit card information
+      </h1>
       <form onSubmit={handleSubmit} className="shadow-md p-4">
         <label>
           Card number
@@ -124,13 +131,24 @@ const SplitForm = () => {
             }}
           />
         </label>
-        <button
-          type="submit"
-          disabled={!stripe}
-          className="py-2 px-4 text-white bg-gray-700 hover:bg-gray-900 rounded font-semibold uppercase mt-2"
-        >
-          Pay {totalsum}€
-        </button>
+        <div className="flex justify-between">
+          <button
+            type="submit"
+            disabled={!stripe}
+            className="py-2 px-4 text-white bg-gray-700 hover:bg-gray-900 rounded font-semibold uppercase mt-2"
+          >
+            Pay {totalsum}€
+          </button>
+          <NavLink
+            to="/cart"
+            className="text-white bg-gray-700 hover:bg-gray-900 py-2 font-semibold rounded px-6 mt-2"
+            activeClassName="text-brandcol"
+            exact
+          >
+            <FontAwesomeIcon icon={faAngleLeft} className="mx-2" />
+            Zurück
+          </NavLink>
+        </div>
       </form>
     </div>
   );
