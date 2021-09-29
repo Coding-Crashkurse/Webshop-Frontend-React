@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import SplitForm from "./components/StripeContainer";
+import Payment from "./components/Payment";
+
 import { AnimatePresence, motion } from "framer-motion";
 
 const stripePromise = loadStripe(
@@ -87,7 +88,7 @@ function App() {
           </Route>
           <Route path="/payment">
             <Elements stripe={stripePromise}>
-              <SplitForm />
+              <Payment />
             </Elements>
           </Route>
         </Switch>

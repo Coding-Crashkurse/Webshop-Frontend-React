@@ -16,11 +16,11 @@ const Home = () => {
       <div>
         <NavLink
           to="/products"
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded  border-white border-2 px-10 py-4 text-4xl text-white bg-gray-700 hover:bg-gray-900"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded  border-white border-2 px-10 py-4 text-2xl md:text-4xl text-center text-white bg-gray-700 hover:bg-gray-900"
           activeClassName="text-brandcol"
           exact
         >
-          Zu den Produkten
+          Check out our products
         </NavLink>
       </div>
     </React.Fragment>

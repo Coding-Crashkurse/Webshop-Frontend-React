@@ -40,7 +40,7 @@ const useOptions = () => {
   return options;
 };
 
-const SplitForm = () => {
+const SplitForm = ({ onPayment }) => {
   const stripe = useStripe();
   const elements = useElements();
   const options = useOptions();
@@ -68,89 +68,90 @@ const SplitForm = () => {
       type: "card",
       card: elements.getElement(CardNumberElement),
     });
-    console.log("[PaymentMethod]", payload);
+
+    if (!payload.error) {
+      onPayment(true);
+      ctx.onRemoveAll();
+    } else {
+      onPayment(false);
+    }
   };
 
   return (
-    <div className="pt-36 m-auto max-w-lg">
-      <h1 className="text-xl font-semibold">
-        Please enter your credit card information
-      </h1>
-      <form onSubmit={handleSubmit} className="shadow-md p-4">
-        <label>
-          Card number
-          <CardNumberElement
-            options={options}
-            onReady={() => {
-              console.log("CardNumberElement [ready]");
-            }}
-            onChange={(event) => {
-              console.log("CardNumberElement [change]", event);
-            }}
-            onBlur={() => {
-              console.log("CardNumberElement [blur]");
-            }}
-            onFocus={() => {
-              console.log("CardNumberElement [focus]");
-            }}
-          />
-        </label>
-        <label>
-          Expiration date
-          <CardExpiryElement
-            options={options}
-            onReady={() => {
-              console.log("CardNumberElement [ready]");
-            }}
-            onChange={(event) => {
-              console.log("CardNumberElement [change]", event);
-            }}
-            onBlur={() => {
-              console.log("CardNumberElement [blur]");
-            }}
-            onFocus={() => {
-              console.log("CardNumberElement [focus]");
-            }}
-          />
-        </label>
-        <label>
-          CVC
-          <CardCvcElement
-            options={options}
-            onReady={() => {
-              console.log("CardNumberElement [ready]");
-            }}
-            onChange={(event) => {
-              console.log("CardNumberElement [change]", event);
-            }}
-            onBlur={() => {
-              console.log("CardNumberElement [blur]");
-            }}
-            onFocus={() => {
-              console.log("CardNumberElement [focus]");
-            }}
-          />
-        </label>
-        <div className="flex justify-between">
-          <button
-            type="submit"
-            disabled={!stripe}
-            className="py-2 px-4 text-white bg-gray-700 hover:bg-gray-900 rounded font-semibold uppercase mt-2"
-          >
-            Pay {totalsum}€
-          </button>
-          <NavLink
-            to="/cart"
-            className="text-white bg-gray-700 hover:bg-gray-900 py-2 font-semibold rounded px-6 mt-2"
-            activeClassName="text-brandcol"
-            exact
-          >
-            <FontAwesomeIcon icon={faAngleLeft} className="mx-2" />
-            Zurück
-          </NavLink>
-        </div>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Card number
+        <CardNumberElement
+          options={options}
+          onReady={() => {
+            console.log("CardNumberElement [ready]");
+          }}
+          onChange={(event) => {
+            console.log("CardNumberElement [change]", event);
+          }}
+          onBlur={() => {
+            console.log("CardNumberElement [blur]");
+          }}
+          onFocus={() => {
+            console.log("CardNumberElement [focus]");
+          }}
+        />
+      </label>
+      <label>
+        Expiration date
+        <CardExpiryElement
+          options={options}
+          onReady={() => {
+            console.log("CardNumberElement [ready]");
+          }}
+          onChange={(event) => {
+            console.log("CardNumberElement [change]", event);
+          }}
+          onBlur={() => {
+            console.log("CardNumberElement [blur]");
+          }}
+          onFocus={() => {
+            console.log("CardNumberElement [focus]");
+          }}
+        />
+      </label>
+      <label>
+        CVC
+        <CardCvcElement
+          options={options}
+          onReady={() => {
+            console.log("CardNumberElement [ready]");
+          }}
+          onChange={(event) => {
+            console.log("CardNumberElement [change]", event);
+          }}
+          onBlur={() => {
+            console.log("CardNumberElement [blur]");
+          }}
+          onFocus={() => {
+            console.log("CardNumberElement [focus]");
+          }}
+        />
+      </label>
+      <div className="flex justify-between">
+        <button
+          type="submit"
+          disabled={!stripe}
+          className="py-2 px-4 text-white bg-gray-700 hover:bg-gray-900 rounded font-semibold uppercase mt-2"
+        >
+          Pay {totalsum}€
+        </button>
+        <NavLink
+          to="/cart"
+          className="text-white bg-gray-700 hover:bg-gray-900 py-2 font-semibold rounded px-6 mt-2"
+          activeClassName="text-brandcol"
+          exact
+        >
+          <FontAwesomeIcon icon={faAngleLeft} className="mx-2" />
+          Zurück
+        </NavLink>
+      </div>
+    </form>
   );
 };
 
